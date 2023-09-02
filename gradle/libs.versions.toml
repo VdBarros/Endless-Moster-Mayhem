@@ -1,0 +1,62 @@
+[versions]
+agp = "8.1.1"
+dagger-android-processor = "2.24"
+dagger-android-support = "2.25.4"
+dagger-android = "2.35.1"
+dagger-compiler = "2.24"
+dagger = "2.35.1"
+androidx-material = "1.5.0"
+google-material = "1.9.0"
+kotlin = "1.9.10"
+core-ktx = "1.10.1"
+junit = "4.13.2"
+androidx-test-ext-junit = "1.1.5"
+espresso-core = "3.5.1"
+appcompat = "1.6.1"
+kotlinx-coroutines-test = "1.6.4"
+lifecycle-extensions = "2.2.0"
+material = "1.9.0"
+ksp = "1.9.10-1.0.13"
+android = "8.1.1"
+mockk = "1.9.3"
+mockito-kotlin = "2.1.0"
+navigation = "2.7.1"
+room-common = "2.5.2"
+rxandroid = "2.1.1"
+rxkotlin = "3.0.0"
+navigation-compose = "2.7.1"
+recyclerview = "1.3.1"
+
+[libraries]
+androidx-lifecycle-extensions = { module = "androidx.lifecycle:lifecycle-extensions", version.ref = "lifecycle-extensions" }
+androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigation-compose" }
+androidx-material = { module = "androidx.compose.material:material", version.ref = "androidx-material" }
+androidx-recyclerview = { module = "androidx.recyclerview:recyclerview", version.ref = "recyclerview" }
+androidx-room-common = { module = "androidx.room:room-common", version.ref = "room-common" }
+androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "room-common" }
+androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "room-common" }
+core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
+dagger-android-processor = { module = "com.google.dagger:dagger-android-processor", version.ref = "dagger-android-processor" }
+dagger-android-support = { module = "com.google.dagger:dagger-android-support", version.ref = "dagger-android-support" }
+dagger-android = { module = "com.google.dagger:dagger-android", version.ref = "dagger-android" }
+dagger-compiler = { module = "com.google.dagger:dagger-compiler", version.ref = "dagger-compiler" }
+dagger = { module = "com.google.dagger:dagger", version.ref = "dagger" }
+junit = { group = "junit", name = "junit", version.ref = "junit" }
+androidx-test-ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidx-test-ext-junit" }
+espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espresso-core" }
+appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version = "2.5.2" }
+kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinx-coroutines-test" }
+material = { module = "com.google.android.material:material", version.ref = "google-material" }
+mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
+mockito-kotlin = { module = "com.nhaarman.mockitokotlin2:mockito-kotlin", version.ref = "mockito-kotlin" }
+rxandroid = { module = "io.reactivex.rxjava2:rxandroid", version.ref = "rxandroid" }
+rxkotlin = { module = "io.reactivex.rxjava3:rxkotlin", version.ref = "rxkotlin" }
+
+[plugins]
+androidApplication = { id = "com.android.application", version.ref = "agp" }
+kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+androidLib = { id = "com.android.library", version.ref = "android" }
+kotlinKSP = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+kotlinKapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
+
