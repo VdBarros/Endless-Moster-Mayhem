@@ -7,9 +7,9 @@ import kotlin.math.sqrt
 
 
 abstract class GameObject {
-    var positionX = 0.0
+    var positionX = 1.0
         protected set
-    var positionY = 0.0
+    var positionY = 1.0
         protected set
     var velocityX = 0.0
     var velocityY = 0.0

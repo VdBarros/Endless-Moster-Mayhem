@@ -5,6 +5,7 @@ import android.app.Activity
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.PixelFormat
+import android.graphics.Rect
 import android.view.MotionEvent
 import android.view.SurfaceHolder
 import android.view.SurfaceView
@@ -38,6 +39,7 @@ class EndlessMonsterMayhemSurfaceView(
     private val scorePanel: ScorePanel
     private var currentScore = 0
     private val gameDisplay: GameDisplay
+    private var displayMetrics: Rect
 
     init {
         val surfaceHolder = holder
@@ -45,13 +47,25 @@ class EndlessMonsterMayhemSurfaceView(
         surfaceHolder.setFormat(PixelFormat.RGBA_8888)
         gameLoop = GameLoop(this, surfaceHolder)
         scorePanel = ScorePanel(context, gameLoop)
-        joystick = Joystick(getPixelFromDp(100), getPixelFromDp(300), getPixelFromDp(36), getPixelFromDp(28))
+        joystick = Joystick(
+            getPixelFromDp(100),
+            getPixelFromDp(300),
+            getPixelFromDp(36),
+            getPixelFromDp(28)
+        )
 
         val spriteSheet = SpriteSheet(context)
         val animator = Animator(spriteSheet.playerSpriteArray)
-        player = Player(context, joystick, getPixelFromDp(500), getPixelFromDp(500), getPixelFromDp(30), animator)
+        player = Player(
+            context,
+            joystick,
+            getPixelFromDp(500),
+            getPixelFromDp(500),
+            getPixelFromDp(30),
+            animator
+        )
 
-        val displayMetrics = WindowMetricsCalculator.getOrCreate()
+        displayMetrics = WindowMetricsCalculator.getOrCreate()
             .computeCurrentWindowMetrics(context as Activity).bounds
         gameDisplay = GameDisplay(displayMetrics.width(), displayMetrics.height(), player)
         tilemap = TileMap(spriteSheet, context)
@@ -146,8 +160,17 @@ class EndlessMonsterMayhemSurfaceView(
             numberOfSpellsToCast--
         }
 
+        val trash = ArrayList<Spell>()
+        val visibilityMargin = getPixelFromDp(100)
         for (spell in spellList) {
+            if (!(spell.positionX >= player.positionX - visibilityMargin && spell.positionX < player.positionX + displayMetrics.width() + visibilityMargin &&
+                        spell.positionY >= player.positionY - visibilityMargin && spell.positionY < player.positionY + displayMetrics.height() + visibilityMargin)
+            ) trash.add(spell)
             spell.update()
+        }
+
+        for (spell in trash) {
+            spellList.remove(spell)
         }
 
         val iteratorEnemy: MutableIterator<Enemy> = enemyList.iterator()
