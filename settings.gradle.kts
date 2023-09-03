@@ -13,7 +13,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "MVVM Compose Template"
+rootProject.name = "Endless Monster Mayhem"
 include(":presentation")
 include(":domain")
 include(":data")

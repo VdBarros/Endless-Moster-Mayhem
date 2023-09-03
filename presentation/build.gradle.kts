@@ -2,14 +2,15 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.kotlinAndroid)
     alias(libs.plugins.kotlinKapt)
+    id("com.google.gms.google-services")
 }
 
 android {
-    namespace = "com.vinibarros.mvvmcomposetemplate.presentation"
+    namespace = "com.vinibarros.endlessmonstermayhem.presentation"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.vinibarros.mvvmcomposetemplate.presentation"
+        applicationId = "com.vinibarros.endlessmonstermayhem.presentation"
         minSdk = 24
         targetSdk = 34
         versionCode = 1
@@ -60,6 +61,7 @@ dependencies {
     implementation(platform("androidx.compose:compose-bom:2023.08.00"))
     debugImplementation("androidx.compose.ui:ui-tooling")
     implementation("androidx.compose.ui:ui-tooling-preview")
+    implementation (libs.androidx.window)
 
     // Navigation
     implementation(libs.androidx.navigation.compose)
@@ -79,4 +81,9 @@ dependencies {
     //rx
     implementation(libs.rxkotlin)
     implementation(libs.rxandroid)
+
+    //firebase
+    implementation(platform("com.google.firebase:firebase-bom:32.2.3"))
+    implementation("com.google.firebase:firebase-analytics-ktx")
+    implementation("com.google.firebase:firebase-firestore-ktx")
 }

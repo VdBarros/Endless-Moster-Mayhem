@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "592814602740",
+    "project_id": "endless-monster-mayhem",
+    "storage_bucket": "endless-monster-mayhem.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:592814602740:android:a72439a7c7ebb15f7be1a1",
+        "android_client_info": {
+          "package_name": "com.vinibarros.endlessmonstermayhem"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "592814602740-86nmog0o7n911irdg0ua41kbqbh4fkko.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAY1H8gbDZ5hu9UDjEhmeCTQAvwJnTuDck"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "592814602740-86nmog0o7n911irdg0ua41kbqbh4fkko.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:592814602740:android:3ea8f64ecf64cc287be1a1",
+        "android_client_info": {
+          "package_name": "com.vinibarros.endlessmonstermayhem.presentation"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "592814602740-86nmog0o7n911irdg0ua41kbqbh4fkko.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAY1H8gbDZ5hu9UDjEhmeCTQAvwJnTuDck"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "592814602740-86nmog0o7n911irdg0ua41kbqbh4fkko.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

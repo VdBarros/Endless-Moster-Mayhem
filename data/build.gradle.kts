@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.vinibarros.mvvmcomposetemplate.data"
+    namespace = "com.vinibarros.endlessmonstermayhem.data"
     compileSdk = 34
 
     defaultConfig {
