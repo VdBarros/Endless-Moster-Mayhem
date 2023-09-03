@@ -40,8 +40,12 @@ class EndlessMonsterMayhemSurfaceView(
     private var currentScore = 0
     private val gameDisplay: GameDisplay
     private var displayMetrics: Rect
+    private var visibilityMargin = 100.0
 
     init {
+        visibilityMargin = getPixelFromDp(100)
+        displayMetrics = WindowMetricsCalculator.getOrCreate()
+            .computeCurrentWindowMetrics(context as Activity).bounds
         val surfaceHolder = holder
         surfaceHolder.addCallback(this)
         surfaceHolder.setFormat(PixelFormat.RGBA_8888)
@@ -64,9 +68,6 @@ class EndlessMonsterMayhemSurfaceView(
             getPixelFromDp(30),
             animator
         )
-
-        displayMetrics = WindowMetricsCalculator.getOrCreate()
-            .computeCurrentWindowMetrics(context as Activity).bounds
         gameDisplay = GameDisplay(displayMetrics.width(), displayMetrics.height(), player)
         tilemap = TileMap(spriteSheet, context)
         isFocusable = true
@@ -148,7 +149,7 @@ class EndlessMonsterMayhemSurfaceView(
         player.update()
 
         if (Enemy.readyToSpawn()) {
-            enemyList.add(Enemy(context, player))
+            enemyList.add(Enemy(context, player, visibilityMargin, displayMetrics))
         }
 
         for (enemy in enemyList) {
@@ -160,23 +161,24 @@ class EndlessMonsterMayhemSurfaceView(
             numberOfSpellsToCast--
         }
 
-        val trash = ArrayList<Spell>()
-        val visibilityMargin = getPixelFromDp(100)
+        val spellTrash = ArrayList<Spell>()
+
         for (spell in spellList) {
-            if (!(spell.positionX >= player.positionX - visibilityMargin && spell.positionX < player.positionX + displayMetrics.width() + visibilityMargin &&
-                        spell.positionY >= player.positionY - visibilityMargin && spell.positionY < player.positionY + displayMetrics.height() + visibilityMargin)
-            ) trash.add(spell)
+            if (
+                !(spell.positionX >= player.positionX - visibilityMargin - displayMetrics.width()/2 && spell.positionX < player.positionX + displayMetrics.width()/2 + visibilityMargin &&
+                        spell.positionY >= player.positionY - visibilityMargin - displayMetrics.height()/2 && spell.positionY < player.positionY + displayMetrics.height()/2 + visibilityMargin)
+            ) spellTrash.add(spell)
             spell.update()
         }
 
-        for (spell in trash) {
+        for (spell in spellTrash) {
             spellList.remove(spell)
         }
 
         val iteratorEnemy: MutableIterator<Enemy> = enemyList.iterator()
         while (iteratorEnemy.hasNext()) {
-            val enemy: Circle = iteratorEnemy.next()
-            if (Circle.isColliding(enemy, player)) {
+            val enemy: Enemy = iteratorEnemy.next()
+            if (enemy.isVisible && Circle.isColliding(enemy, player)) {
                 iteratorEnemy.remove()
                 player.healthPoint--
                 continue

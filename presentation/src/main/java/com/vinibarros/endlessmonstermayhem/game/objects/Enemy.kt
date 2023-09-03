@@ -1,9 +1,11 @@
 package com.vinibarros.endlessmonstermayhem.game.objects
 
 import android.content.Context
+import android.graphics.Canvas
+import android.graphics.Rect
 import androidx.core.content.ContextCompat
+import com.vinibarros.endlessmonstermayhem.game.core.GameDisplay
 import com.vinibarros.endlessmonstermayhem.game.core.GameLoop
-import com.vinibarros.endlessmonstermayhem.game.view.EndlessMonsterMayhemSurfaceView
 import com.vinibarros.endlessmonstermayhem.presentation.R
 import com.vinibarros.endlessmonstermayhem.util.getPixelFromDp
 
@@ -11,7 +13,10 @@ import com.vinibarros.endlessmonstermayhem.util.getPixelFromDp
 class Enemy : Circle {
     private var player: Player
     private var context: Context
-    constructor(context: Context, player: Player) : super(
+    private var visibilityMargin: Double
+    private var displayMetrics: Rect
+    var isVisible = true
+    constructor(context: Context, player: Player, visibilityMargin: Double, displayMetrics: Rect) : super(
         context,
         ContextCompat.getColor(context, R.color.enemy),
         Math.random() * context.getPixelFromDp(1000),
@@ -20,6 +25,8 @@ class Enemy : Circle {
     ) {
         this.context = context
         this.player = player
+        this.visibilityMargin = visibilityMargin
+        this.displayMetrics = displayMetrics
     }
 
     override fun update() {
@@ -40,6 +47,13 @@ class Enemy : Circle {
         }
         positionX += velocityX
         positionY += velocityY
+
+       isVisible = (positionX >= player.positionX - visibilityMargin - displayMetrics.width()/2 && positionX < player.positionX + displayMetrics.width()/2 + visibilityMargin &&
+                positionY >= player.positionY - visibilityMargin - displayMetrics.height()/2 && positionY < player.positionY + displayMetrics.height()/2 + visibilityMargin)
+    }
+
+    override fun draw(canvas: Canvas, gameDisplay: GameDisplay) {
+        if (isVisible) super.draw(canvas, gameDisplay)
     }
 
     companion object {
