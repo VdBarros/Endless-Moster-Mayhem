@@ -1,5 +1,6 @@
 package com.vinibarros.endlessmonstermayhem.game.map
 
+import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Rect
 import com.vinibarros.endlessmonstermayhem.game.graphics.Sprite
@@ -14,7 +15,7 @@ internal class GroundTile(spriteSheet: SpriteSheet, mapLocationRect: Rect) :
         sprite = spriteSheet.groundSprite
     }
 
-    override fun draw(canvas: Canvas) {
-        sprite.draw(canvas, mapLocationRect.left, mapLocationRect.top)
+    override fun draw(canvas: Canvas, context: Context) {
+        sprite.draw(canvas, mapLocationRect.left, mapLocationRect.top, context)
     }
 }

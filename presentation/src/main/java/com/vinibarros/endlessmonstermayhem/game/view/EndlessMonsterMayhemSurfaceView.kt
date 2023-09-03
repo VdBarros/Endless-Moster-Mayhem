@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.graphics.Canvas
+import android.graphics.PixelFormat
 import android.view.MotionEvent
 import android.view.SurfaceHolder
 import android.view.SurfaceView
@@ -19,10 +20,11 @@ import com.vinibarros.endlessmonstermayhem.game.objects.Player
 import com.vinibarros.endlessmonstermayhem.game.objects.Spell
 import com.vinibarros.endlessmonstermayhem.game.panels.Joystick
 import com.vinibarros.endlessmonstermayhem.game.panels.ScorePanel
+import com.vinibarros.endlessmonstermayhem.util.getPixelFromDp
 
 class EndlessMonsterMayhemSurfaceView(
     context: Context,
-    val onGameOver: (Int) -> Unit
+    private val onGameOver: (Int) -> Unit
 ) : SurfaceView(context), SurfaceHolder.Callback {
 
     private val tilemap: TileMap
@@ -40,19 +42,19 @@ class EndlessMonsterMayhemSurfaceView(
     init {
         val surfaceHolder = holder
         surfaceHolder.addCallback(this)
-
+        surfaceHolder.setFormat(PixelFormat.RGBA_8888)
         gameLoop = GameLoop(this, surfaceHolder)
-        scorePanel = ScorePanel(context)
-        joystick = Joystick(275, 700, 70, 40)
+        scorePanel = ScorePanel(context, gameLoop)
+        joystick = Joystick(getPixelFromDp(100), getPixelFromDp(300), getPixelFromDp(36), getPixelFromDp(28))
 
         val spriteSheet = SpriteSheet(context)
         val animator = Animator(spriteSheet.playerSpriteArray)
-        player = Player(context, joystick, 2 * 500.0, 500.0, 32.0, animator)
+        player = Player(context, joystick, getPixelFromDp(500), getPixelFromDp(500), getPixelFromDp(30), animator)
 
         val displayMetrics = WindowMetricsCalculator.getOrCreate()
             .computeCurrentWindowMetrics(context as Activity).bounds
         gameDisplay = GameDisplay(displayMetrics.width(), displayMetrics.height(), player)
-        tilemap = TileMap(spriteSheet)
+        tilemap = TileMap(spriteSheet, context)
         isFocusable = true
     }
 

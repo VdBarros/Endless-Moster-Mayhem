@@ -1,7 +1,9 @@
 package com.vinibarros.endlessmonstermayhem.game.graphics
 
+import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Rect
+import com.vinibarros.endlessmonstermayhem.util.getPixelFromDp
 
 class Sprite(private val spriteSheet: SpriteSheet, rect: Rect) {
     private val rect: Rect
@@ -10,11 +12,11 @@ class Sprite(private val spriteSheet: SpriteSheet, rect: Rect) {
         this.rect = rect
     }
 
-    fun draw(canvas: Canvas, x: Int, y: Int) {
+    fun draw(canvas: Canvas, x: Int, y: Int, context: Context) {
         canvas.drawBitmap(
             spriteSheet.bitmap,
             rect,
-            Rect(x, y, x + width, y + height),
+            Rect(x, y, x + context.getPixelFromDp(width).toInt(), y + context.getPixelFromDp(height).toInt()),
             null
         )
     }

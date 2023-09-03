@@ -90,8 +90,10 @@ class EndlessMonsterMayhemMainActivity : AppCompatActivity(), HasAndroidInjector
                         EndlessMonsterMayhemSurfaceView(this@EndlessMonsterMayhemMainActivity) { score ->
                             this@EndlessMonsterMayhemMainActivity.runOnUiThread {
                                 scope.launch {
-                                    db.collection("ranking").add(Score(playerName, score))
-                                        .addOnSuccessListener {}.addOnFailureListener {}.await()
+                                    try {
+                                        db.collection("ranking").add(Score(playerName, score))
+                                            .addOnSuccessListener {}.addOnFailureListener {}.await()
+                                    } catch (_: Exception) {}
                                     navController.navigate("game_over") {
                                         launchSingleTop = true
                                     }

@@ -1,5 +1,6 @@
 package com.vinibarros.endlessmonstermayhem.game.map
 
+import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Rect
 import com.vinibarros.endlessmonstermayhem.game.graphics.SpriteSheet
@@ -16,7 +17,7 @@ internal abstract class Tile(mapLocationRect: Rect) {
         WATER_TILE, LAVA_TILE, GROUND_TILE, GRASS_TILE, TREE_TILE
     }
 
-    abstract fun draw(canvas: Canvas)
+    abstract fun draw(canvas: Canvas, context: Context)
 
     companion object {
         fun getTile(idxTileType: Int, spriteSheet: SpriteSheet, mapLocationRect: Rect): Tile {

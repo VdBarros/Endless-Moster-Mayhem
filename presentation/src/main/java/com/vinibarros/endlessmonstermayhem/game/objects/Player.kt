@@ -10,10 +10,11 @@ import com.vinibarros.endlessmonstermayhem.game.panels.HealthBar
 import com.vinibarros.endlessmonstermayhem.game.panels.Joystick
 import com.vinibarros.endlessmonstermayhem.presentation.R
 import com.vinibarros.endlessmonstermayhem.util.getDistanceBetweenPoints
+import com.vinibarros.endlessmonstermayhem.util.getPixelFromDp
 
 
 class Player(
-    context: Context,
+    val context: Context,
     joystick: Joystick,
     positionX: Double,
     positionY: Double,
@@ -41,8 +42,8 @@ class Player(
     }
 
     override fun update() {
-        velocityX = joystick.actuatorX * MAX_SPEED
-        velocityY = joystick.actuatorY * MAX_SPEED
+        velocityX = joystick.actuatorX * context.getPixelFromDp(MAX_SPEED.toInt())
+        velocityY = joystick.actuatorY * context.getPixelFromDp(MAX_SPEED.toInt())
 
         positionX += velocityX
         positionY += velocityY
@@ -56,7 +57,7 @@ class Player(
     }
 
     override fun draw(canvas: Canvas, gameDisplay: GameDisplay) {
-        animator.draw(canvas, gameDisplay, this)
+        animator.draw(canvas, gameDisplay, this, context)
         healthBar.draw(canvas, gameDisplay)
     }
 
@@ -71,8 +72,8 @@ class Player(
     }
 
     companion object {
-        const val SPEED_PIXELS_PER_SECOND = 400.0
+        const val SPEED_PIXELS_PER_SECOND = 300
         private const val MAX_SPEED = SPEED_PIXELS_PER_SECOND / GameLoop.MAX_UPS
-        const val MAX_HEALTH_POINTS = 1
+        const val MAX_HEALTH_POINTS = 5
     }
 }

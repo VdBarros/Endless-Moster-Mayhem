@@ -5,7 +5,10 @@ import android.view.SurfaceHolder
 import com.vinibarros.endlessmonstermayhem.game.view.EndlessMonsterMayhemSurfaceView
 
 
-class GameLoop(endlessMonsterMayhemSurfaceView: EndlessMonsterMayhemSurfaceView, surfaceHolder: SurfaceHolder) : Thread() {
+class GameLoop(
+    endlessMonsterMayhemSurfaceView: EndlessMonsterMayhemSurfaceView,
+    surfaceHolder: SurfaceHolder
+) : Thread() {
     private val endlessMonsterMayhemSurfaceView: EndlessMonsterMayhemSurfaceView
     private val surfaceHolder: SurfaceHolder
     private var isRunning = false
@@ -34,23 +37,22 @@ class GameLoop(endlessMonsterMayhemSurfaceView: EndlessMonsterMayhemSurfaceView,
         var canvas: Canvas? = null
         startTime = System.currentTimeMillis()
         while (isRunning) {
-
             try {
                 canvas = surfaceHolder.lockCanvas()
-                synchronized(surfaceHolder) {
-                    endlessMonsterMayhemSurfaceView.update()
-                    updateCount++
-                    endlessMonsterMayhemSurfaceView.draw(canvas)
+                canvas?.let {
+                    synchronized(surfaceHolder) {
+                        endlessMonsterMayhemSurfaceView.update()
+                        updateCount++
+                        endlessMonsterMayhemSurfaceView.draw(it)
+                    }
                 }
-            } catch (e: IllegalArgumentException) {
-                e.printStackTrace()
+            } catch (_: IllegalArgumentException) {
             } finally {
-                if (canvas != null) {
+                canvas?.let {
                     try {
-                        surfaceHolder.unlockCanvasAndPost(canvas)
+                        surfaceHolder.unlockCanvasAndPost(it)
                         frameCount++
-                    } catch (e: Exception) {
-                        e.printStackTrace()
+                    } catch (_: Exception) {
                     }
                 }
             }
@@ -60,8 +62,7 @@ class GameLoop(endlessMonsterMayhemSurfaceView: EndlessMonsterMayhemSurfaceView,
             if (sleepTime > 0) {
                 try {
                     sleep(sleepTime)
-                } catch (e: InterruptedException) {
-                    e.printStackTrace()
+                } catch (_: InterruptedException) {
                 }
             }
 
@@ -87,13 +88,20 @@ class GameLoop(endlessMonsterMayhemSurfaceView: EndlessMonsterMayhemSurfaceView,
         isRunning = false
         try {
             join()
-        } catch (e: InterruptedException) {
-            e.printStackTrace()
+        } catch (_: InterruptedException) {
         }
     }
 
     fun endLoop() {
         isRunning = false
+    }
+
+    fun getAverageUPS(): Double {
+        return averageUPS
+    }
+
+    fun getAverageFPS(): Double {
+        return averageFPS
     }
 
     companion object {

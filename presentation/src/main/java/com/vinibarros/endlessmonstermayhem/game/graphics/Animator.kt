@@ -1,25 +1,26 @@
 package com.vinibarros.endlessmonstermayhem.game.graphics
 
+import android.content.Context
 import android.graphics.Canvas
 import com.vinibarros.endlessmonstermayhem.game.core.GameDisplay
 import com.vinibarros.endlessmonstermayhem.game.objects.Player
 import com.vinibarros.endlessmonstermayhem.game.objects.PlayerState
+import com.vinibarros.endlessmonstermayhem.util.getPixelFromDp
 
 
 class Animator(private val playerSpriteArray: Array<Sprite>) {
     private val idxNotMovingFrame = 0
     private var idxMovingFrame = 1
     private var updatesBeforeNextMoveFrame = 0
-    fun draw(canvas: Canvas, gameDisplay: GameDisplay, player: Player) {
+    fun draw(canvas: Canvas, gameDisplay: GameDisplay, player: Player, context: Context) {
         when (player.getPlayerState().state) {
             PlayerState.State.NOT_MOVING -> drawFrame(
-                canvas, gameDisplay, player,
-                playerSpriteArray[idxNotMovingFrame]
+                canvas, gameDisplay, player, playerSpriteArray[idxNotMovingFrame], context
             )
 
             PlayerState.State.STARED_MOVING -> {
                 updatesBeforeNextMoveFrame = MAX_UPDATES_BEFORE_NEXT_MOVE_FRAME
-                drawFrame(canvas, gameDisplay, player, playerSpriteArray[idxMovingFrame])
+                drawFrame(canvas, gameDisplay, player, playerSpriteArray[idxMovingFrame], context)
             }
 
             PlayerState.State.IS_MOVING -> {
@@ -28,10 +29,8 @@ class Animator(private val playerSpriteArray: Array<Sprite>) {
                     updatesBeforeNextMoveFrame = MAX_UPDATES_BEFORE_NEXT_MOVE_FRAME
                     toggleIdxMovingFrame()
                 }
-                drawFrame(canvas, gameDisplay, player, playerSpriteArray[idxMovingFrame])
+                drawFrame(canvas, gameDisplay, player, playerSpriteArray[idxMovingFrame], context)
             }
-
-            else -> {}
         }
     }
 
@@ -39,11 +38,12 @@ class Animator(private val playerSpriteArray: Array<Sprite>) {
         idxMovingFrame = if (idxMovingFrame == 1) 2 else 1
     }
 
-    fun drawFrame(canvas: Canvas, gameDisplay: GameDisplay, player: Player, sprite: Sprite) {
+    private fun drawFrame(canvas: Canvas, gameDisplay: GameDisplay, player: Player, sprite: Sprite, context: Context) {
         sprite.draw(
             canvas,
-            gameDisplay.gameToDisplayCoordinatesX(player.positionX).toInt() - sprite.width / 2,
-            gameDisplay.gameToDisplayCoordinatesY(player.positionY).toInt() - sprite.height / 2
+            gameDisplay.gameToDisplayCoordinatesX(player.positionX).toInt() - (context.getPixelFromDp(sprite.width)/2).toInt(),
+            gameDisplay.gameToDisplayCoordinatesY(player.positionY).toInt() - (context.getPixelFromDp(sprite.height)/2).toInt(),
+            context
         )
     }
 

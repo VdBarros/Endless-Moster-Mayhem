@@ -27,8 +27,8 @@ class MapLayout {
     }
 
     companion object {
-        const val TILE_WIDTH_PIXELS = 64
-        const val TILE_HEIGHT_PIXELS = 64
+        const val TILE_WIDTH_PIXELS = 32
+        const val TILE_HEIGHT_PIXELS = 32
         const val NUMBER_OF_ROW_TILES = 60
         const val NUMBER_OF_COLUMN_TILES = 60
     }

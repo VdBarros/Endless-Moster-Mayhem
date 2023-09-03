@@ -7,15 +7,15 @@ import kotlin.math.pow
 import kotlin.math.sqrt
 
 class Joystick(
-    private val outerCircleCenterPositionX: Int,
-    private val outerCircleCenterPositionY: Int,
-    outerCircleRadius: Int,
-    innerCircleRadius: Int
+    private val outerCircleCenterPositionX: Double,
+    private val outerCircleCenterPositionY: Double,
+    outerCircleRadius: Double,
+    innerCircleRadius: Double
 ) {
-    private var innerCircleCenterPositionX: Int
-    private var innerCircleCenterPositionY: Int
-    private val outerCircleRadius: Int
-    private val innerCircleRadius: Int
+    private var innerCircleCenterPositionX: Double
+    private var innerCircleCenterPositionY: Double
+    private val outerCircleRadius: Double
+    private val innerCircleRadius: Double
     private val innerCirclePaint: Paint
     private val outerCirclePaint: Paint
     var isPressed = false
@@ -62,9 +62,9 @@ class Joystick(
 
     private fun updateInnerCirclePosition() {
         innerCircleCenterPositionX =
-            (outerCircleCenterPositionX + actuatorX * outerCircleRadius).toInt()
+            (outerCircleCenterPositionX + actuatorX * outerCircleRadius)
         innerCircleCenterPositionY =
-            (outerCircleCenterPositionY + actuatorY * outerCircleRadius).toInt()
+            (outerCircleCenterPositionY + actuatorY * outerCircleRadius)
     }
 
     fun setActuator(touchPositionX: Double, touchPositionY: Double) {

@@ -1,5 +1,6 @@
 package com.vinibarros.endlessmonstermayhem.game.map
 
+import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Rect
 import com.vinibarros.endlessmonstermayhem.game.graphics.Sprite
@@ -13,7 +14,7 @@ internal class WaterTile(spriteSheet: SpriteSheet, mapLocationRect: Rect) : Tile
         sprite = spriteSheet.waterSprite
     }
 
-    override fun draw(canvas: Canvas) {
-        sprite.draw(canvas, mapLocationRect.left, mapLocationRect.top)
+    override fun draw(canvas: Canvas, context: Context) {
+        sprite.draw(canvas, mapLocationRect.left, mapLocationRect.top, context)
     }
 }
