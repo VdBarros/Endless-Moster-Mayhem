@@ -16,16 +16,13 @@ class MapLayout {
         }
         for (row in 0 until NUMBER_OF_ROW_TILES) {
             for (col in 0 until NUMBER_OF_COLUMN_TILES) {
-                layout[row][col] = 2
+                if (row == 0 || row == NUMBER_OF_ROW_TILES - 1 || col == 0 || col == NUMBER_OF_COLUMN_TILES - 1) {
+                    layout[row][col] = 4
+                } else {
+                    layout[row][col] = 2
+                }
             }
         }
-
-        layout[0][0] = 1
-        layout[0][59] = 1
-        layout[4][17] = 4
-        layout[4][18] = 3
-        layout[4][19] = 3
-        layout[4][20] = 4
     }
 
     companion object {

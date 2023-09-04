@@ -2,10 +2,12 @@ package com.vinibarros.endlessmonstermayhem.game.objects
 
 import android.content.Context
 import android.graphics.Canvas
+import android.graphics.RectF
 import androidx.core.content.ContextCompat
 import com.vinibarros.endlessmonstermayhem.game.core.GameDisplay
 import com.vinibarros.endlessmonstermayhem.game.core.GameLoop
 import com.vinibarros.endlessmonstermayhem.game.graphics.Animator
+import com.vinibarros.endlessmonstermayhem.game.map.TileMap
 import com.vinibarros.endlessmonstermayhem.game.panels.HealthBar
 import com.vinibarros.endlessmonstermayhem.game.panels.Joystick
 import com.vinibarros.endlessmonstermayhem.presentation.R
@@ -19,7 +21,8 @@ class Player(
     positionX: Double,
     positionY: Double,
     radius: Double,
-    animator: Animator
+    animator: Animator,
+    tileMap: TileMap
 ) :
     Circle(
         context,
@@ -32,12 +35,14 @@ class Player(
     private val healthBar: HealthBar
     private var healthPoints = MAX_HEALTH_POINTS
     private val animator: Animator
+    private val tileMap: TileMap
     private val playerState: PlayerState
 
     init {
         this.joystick = joystick
         healthBar = HealthBar(context, this)
         this.animator = animator
+        this.tileMap = tileMap
         playerState = PlayerState(this)
     }
 
@@ -47,6 +52,15 @@ class Player(
 
         positionX += velocityX
         positionY += velocityY
+
+        val playerCircle = RectF((positionX - radius).toFloat(),
+            (positionY - radius).toFloat(), (positionX + radius).toFloat(), (positionY + radius).toFloat()
+        )
+
+        if (tileMap.checkPlayerCollision(playerCircle)){
+            positionX += -velocityX
+            positionY += -velocityY
+        }
 
         if (velocityX != 0.0 || velocityY != 0.0) {
             val distance: Double = getDistanceBetweenPoints(0.0, 0.0, velocityX, velocityY)

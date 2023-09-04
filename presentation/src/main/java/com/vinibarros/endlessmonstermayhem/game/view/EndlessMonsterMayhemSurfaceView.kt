@@ -61,16 +61,17 @@ class EndlessMonsterMayhemSurfaceView(
 
         val spriteSheet = SpriteSheet(context)
         val animator = Animator(spriteSheet.playerSpriteArray)
+        tilemap = TileMap(spriteSheet, context)
         player = Player(
             context,
             joystick,
             getPixelFromDp(500),
             getPixelFromDp(500),
             getPixelFromDp(30),
-            animator
+            animator,
+            tilemap
         )
         gameDisplay = GameDisplay(displayMetrics.width(), displayMetrics.height(), player)
-        tilemap = TileMap(spriteSheet, context)
         isFocusable = true
     }
 
