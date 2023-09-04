@@ -22,6 +22,7 @@ import com.vinibarros.endlessmonstermayhem.game.objects.Spell
 import com.vinibarros.endlessmonstermayhem.game.panels.Joystick
 import com.vinibarros.endlessmonstermayhem.game.panels.ScorePanel
 import com.vinibarros.endlessmonstermayhem.util.getPixelFromDp
+import com.vinibarros.endlessmonstermayhem.util.isGameObjectVisible
 
 class EndlessMonsterMayhemSurfaceView(
     context: Context,
@@ -164,9 +165,15 @@ class EndlessMonsterMayhemSurfaceView(
         val spellTrash = ArrayList<Spell>()
 
         for (spell in spellList) {
-            if (
-                !(spell.positionX >= player.positionX - visibilityMargin - displayMetrics.width()/2 && spell.positionX < player.positionX + displayMetrics.width()/2 + visibilityMargin &&
-                        spell.positionY >= player.positionY - visibilityMargin - displayMetrics.height()/2 && spell.positionY < player.positionY + displayMetrics.height()/2 + visibilityMargin)
+            if (!isGameObjectVisible(
+                    spell.positionX,
+                    spell.positionY,
+                    displayMetrics.width(),
+                    displayMetrics.height(),
+                    player.positionX,
+                    player.positionY,
+                    visibilityMargin
+                )
             ) spellTrash.add(spell)
             spell.update()
         }

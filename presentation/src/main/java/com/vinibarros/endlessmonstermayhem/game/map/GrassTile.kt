@@ -14,7 +14,7 @@ internal class GrassTile(spriteSheet: SpriteSheet, mapLocationRect: Rect) : Tile
         sprite = spriteSheet.grassSprite
     }
 
-    override fun draw(canvas: Canvas, context: Context) {
-        sprite.draw(canvas, mapLocationRect.left, mapLocationRect.top, context)
+    override fun draw(canvas: Canvas) {
+        sprite.draw(canvas, mapLocationRect)
     }
 }

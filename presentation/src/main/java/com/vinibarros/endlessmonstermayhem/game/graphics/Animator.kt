@@ -2,6 +2,7 @@ package com.vinibarros.endlessmonstermayhem.game.graphics
 
 import android.content.Context
 import android.graphics.Canvas
+import android.graphics.Rect
 import com.vinibarros.endlessmonstermayhem.game.core.GameDisplay
 import com.vinibarros.endlessmonstermayhem.game.objects.Player
 import com.vinibarros.endlessmonstermayhem.game.objects.PlayerState
@@ -41,9 +42,12 @@ class Animator(private val playerSpriteArray: Array<Sprite>) {
     private fun drawFrame(canvas: Canvas, gameDisplay: GameDisplay, player: Player, sprite: Sprite, context: Context) {
         sprite.draw(
             canvas,
-            gameDisplay.gameToDisplayCoordinatesX(player.positionX).toInt() - (context.getPixelFromDp(sprite.width)/2).toInt(),
-            gameDisplay.gameToDisplayCoordinatesY(player.positionY).toInt() - (context.getPixelFromDp(sprite.height)/2).toInt(),
-            context
+            Rect(
+                gameDisplay.gameToDisplayCoordinatesX(player.positionX).toInt() - (context.getPixelFromDp(sprite.width)/2).toInt(),
+                gameDisplay.gameToDisplayCoordinatesY(player.positionY).toInt() - (context.getPixelFromDp(sprite.height)/2).toInt(),
+                gameDisplay.gameToDisplayCoordinatesX(player.positionX).toInt() + (context.getPixelFromDp(sprite.width)/2).toInt(),
+                gameDisplay.gameToDisplayCoordinatesY(player.positionY).toInt() + (context.getPixelFromDp(sprite.height)/2).toInt()
+            )
         )
     }
 

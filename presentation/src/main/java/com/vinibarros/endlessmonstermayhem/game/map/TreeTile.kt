@@ -16,8 +16,8 @@ internal class TreeTile(spriteSheet: SpriteSheet, mapLocationRect: Rect) : Tile(
         treeSprite = spriteSheet.treeSprite
     }
 
-    override fun draw(canvas: Canvas, context: Context) {
-        grassSprite.draw(canvas, mapLocationRect.left, mapLocationRect.top, context)
-        treeSprite.draw(canvas, mapLocationRect.left, mapLocationRect.top, context)
+    override fun draw(canvas: Canvas) {
+        grassSprite.draw(canvas, mapLocationRect)
+        treeSprite.draw(canvas, mapLocationRect)
     }
 }

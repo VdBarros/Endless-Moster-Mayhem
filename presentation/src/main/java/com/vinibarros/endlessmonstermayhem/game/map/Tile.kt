@@ -17,7 +17,7 @@ internal abstract class Tile(mapLocationRect: Rect) {
         WATER_TILE, LAVA_TILE, GROUND_TILE, GRASS_TILE, TREE_TILE
     }
 
-    abstract fun draw(canvas: Canvas, context: Context)
+    abstract fun draw(canvas: Canvas)
 
     companion object {
         fun getTile(idxTileType: Int, spriteSheet: SpriteSheet, mapLocationRect: Rect): Tile {

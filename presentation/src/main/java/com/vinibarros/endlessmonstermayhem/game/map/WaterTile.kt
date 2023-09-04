@@ -11,10 +11,12 @@ internal class WaterTile(spriteSheet: SpriteSheet, mapLocationRect: Rect) : Tile
     private val sprite: Sprite
 
     init {
-        sprite = spriteSheet.waterSprite
+        sprite = spriteSheet.waterSprite.apply {
+            rect
+        }
     }
 
-    override fun draw(canvas: Canvas, context: Context) {
-        sprite.draw(canvas, mapLocationRect.left, mapLocationRect.top, context)
+    override fun draw(canvas: Canvas) {
+        sprite.draw(canvas, mapLocationRect)
     }
 }

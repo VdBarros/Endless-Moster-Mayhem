@@ -15,7 +15,7 @@ internal class GroundTile(spriteSheet: SpriteSheet, mapLocationRect: Rect) :
         sprite = spriteSheet.groundSprite
     }
 
-    override fun draw(canvas: Canvas, context: Context) {
-        sprite.draw(canvas, mapLocationRect.left, mapLocationRect.top, context)
+    override fun draw(canvas: Canvas) {
+        sprite.draw(canvas, mapLocationRect)
     }
 }

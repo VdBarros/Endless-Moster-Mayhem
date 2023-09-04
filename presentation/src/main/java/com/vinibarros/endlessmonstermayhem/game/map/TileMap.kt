@@ -26,10 +26,8 @@ class TileMap(spriteSheet: SpriteSheet, val context: Context) {
 
     private fun initializeTilemap() {
         val layout: Array<IntArray> = mapLayout.layout
-        tilemap = Array<Array<Tile?>>(NUMBER_OF_ROW_TILES) {
-            arrayOfNulls<Tile>(
-                NUMBER_OF_COLUMN_TILES
-            )
+        tilemap = Array(NUMBER_OF_ROW_TILES) {
+            arrayOfNulls(NUMBER_OF_COLUMN_TILES)
         }
         for (iRow in 0 until NUMBER_OF_ROW_TILES) {
             for (iCol in 0 until NUMBER_OF_COLUMN_TILES) {
@@ -49,7 +47,7 @@ class TileMap(spriteSheet: SpriteSheet, val context: Context) {
         val mapCanvas = Canvas(mapBitmap)
         for (iRow in 0 until NUMBER_OF_ROW_TILES) {
             for (iCol in 0 until NUMBER_OF_COLUMN_TILES) {
-                tilemap[iRow][iCol]?.draw(mapCanvas, context)
+                tilemap[iRow][iCol]?.draw(mapCanvas)
             }
         }
     }

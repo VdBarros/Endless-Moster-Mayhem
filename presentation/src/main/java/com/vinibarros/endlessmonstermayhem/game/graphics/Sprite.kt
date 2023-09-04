@@ -1,22 +1,20 @@
 package com.vinibarros.endlessmonstermayhem.game.graphics
 
-import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Rect
-import com.vinibarros.endlessmonstermayhem.util.getPixelFromDp
 
 class Sprite(private val spriteSheet: SpriteSheet, rect: Rect) {
-    private val rect: Rect
+    var rect: Rect
 
     init {
         this.rect = rect
     }
 
-    fun draw(canvas: Canvas, x: Int, y: Int, context: Context) {
+    fun draw(canvas: Canvas, dstRect: Rect) {
         canvas.drawBitmap(
             spriteSheet.bitmap,
             rect,
-            Rect(x, y, x + context.getPixelFromDp(width).toInt(), y + context.getPixelFromDp(height).toInt()),
+            dstRect,
             null
         )
     }

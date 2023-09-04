@@ -14,7 +14,7 @@ internal class LavaTile(spriteSheet: SpriteSheet, mapLocationRect: Rect) : Tile(
         sprite = spriteSheet.lavaSprite
     }
 
-    override fun draw(canvas: Canvas, context: Context) {
-        sprite.draw(canvas, mapLocationRect.left, mapLocationRect.top, context)
+    override fun draw(canvas: Canvas) {
+        sprite.draw(canvas, mapLocationRect)
     }
 }

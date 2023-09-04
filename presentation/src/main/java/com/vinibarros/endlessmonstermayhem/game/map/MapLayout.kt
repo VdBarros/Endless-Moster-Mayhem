@@ -20,6 +20,8 @@ class MapLayout {
             }
         }
 
+        layout[0][0] = 1
+        layout[0][59] = 1
         layout[4][17] = 4
         layout[4][18] = 3
         layout[4][19] = 3

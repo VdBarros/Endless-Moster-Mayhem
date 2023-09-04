@@ -8,6 +8,7 @@ import com.vinibarros.endlessmonstermayhem.game.core.GameDisplay
 import com.vinibarros.endlessmonstermayhem.game.core.GameLoop
 import com.vinibarros.endlessmonstermayhem.presentation.R
 import com.vinibarros.endlessmonstermayhem.util.getPixelFromDp
+import com.vinibarros.endlessmonstermayhem.util.isGameObjectVisible
 
 
 class Enemy : Circle {
@@ -48,8 +49,15 @@ class Enemy : Circle {
         positionX += velocityX
         positionY += velocityY
 
-       isVisible = (positionX >= player.positionX - visibilityMargin - displayMetrics.width()/2 && positionX < player.positionX + displayMetrics.width()/2 + visibilityMargin &&
-                positionY >= player.positionY - visibilityMargin - displayMetrics.height()/2 && positionY < player.positionY + displayMetrics.height()/2 + visibilityMargin)
+       isVisible = isGameObjectVisible(
+           positionX,
+           positionY,
+           displayMetrics.width(),
+           displayMetrics.height(),
+           player.positionX,
+           player.positionY,
+           visibilityMargin
+       )
     }
 
     override fun draw(canvas: Canvas, gameDisplay: GameDisplay) {
