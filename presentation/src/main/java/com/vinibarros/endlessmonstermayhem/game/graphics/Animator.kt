@@ -9,13 +9,17 @@ import com.vinibarros.endlessmonstermayhem.game.objects.PlayerState
 import com.vinibarros.endlessmonstermayhem.util.getPixelFromDp
 
 
-class Animator(private  val spriteSheet: SpriteSheet) {
+class Animator(private val spriteSheet: SpriteSheet) {
 
     private var idleFrameIndex = 0
     private var updatesBeforeNextIdleFrame = MAX_UPDATES_BEFORE_NEXT_FRAME
     private var movingFrameIndex = 0
-    private var updatesBeforeNextMovingFrame = 0
+    private var updatesBeforeNextMovingFrame = MAX_UPDATES_BEFORE_NEXT_FRAME
+    private var dyingFrameIndex = 0
+    private var updatesBeforeNextDyingFrame = MAX_UPDATES_BEFORE_NEXT_FRAME
     private lateinit var player: Player
+
+    var dyingAnimationFinished = false
 
     fun draw(canvas: Canvas, gameDisplay: GameDisplay, player: Player, context: Context) {
         this.player = player
@@ -36,17 +40,6 @@ class Animator(private  val spriteSheet: SpriteSheet) {
                 )
             }
 
-            PlayerState.State.STARTED_MOVING -> {
-                updatesBeforeNextMovingFrame = MAX_UPDATES_BEFORE_NEXT_FRAME
-                drawPlayerFrame(
-                    canvas,
-                    gameDisplay,
-                    player,
-                    spriteSheet.getRunningSprite(player.velocityX, movingFrameIndex),
-                    context
-                )
-            }
-
             PlayerState.State.IS_MOVING -> {
                 updatesBeforeNextMovingFrame--
                 if (updatesBeforeNextMovingFrame == 0) {
@@ -61,6 +54,23 @@ class Animator(private  val spriteSheet: SpriteSheet) {
                     context
                 )
             }
+
+            PlayerState.State.DEAD -> {
+                if (!dyingAnimationFinished) {
+                    updatesBeforeNextDyingFrame--
+                    if (updatesBeforeNextDyingFrame == 0) {
+                        updatesBeforeNextDyingFrame = MAX_UPDATES_BEFORE_NEXT_FRAME
+                        toggleDyingFrame()
+                    }
+                }
+                drawPlayerFrame(
+                    canvas,
+                    gameDisplay,
+                    player,
+                    spriteSheet.getDyingSprite(player.directionX, dyingFrameIndex),
+                    context
+                )
+            }
         }
     }
 
@@ -70,6 +80,11 @@ class Animator(private  val spriteSheet: SpriteSheet) {
 
     private fun toggleMovingFrame() {
         movingFrameIndex = (movingFrameIndex + 1) % spriteSheet.runningSpriteCount
+    }
+
+    private fun toggleDyingFrame() {
+        if (dyingFrameIndex < spriteSheet.dyingSpriteCount - 1) dyingFrameIndex++
+        else dyingAnimationFinished = true
     }
 
     private fun drawPlayerFrame(
@@ -86,7 +101,8 @@ class Animator(private  val spriteSheet: SpriteSheet) {
             canvas,
             Rect(
                 gameDisplay.gameToDisplayCoordinatesX(player.positionX).toInt() - halfWidth.toInt(),
-                gameDisplay.gameToDisplayCoordinatesY(player.positionY).toInt() - halfHeight.toInt(),
+                gameDisplay.gameToDisplayCoordinatesY(player.positionY)
+                    .toInt() - halfHeight.toInt(),
                 gameDisplay.gameToDisplayCoordinatesX(player.positionX).toInt() + halfWidth.toInt(),
                 gameDisplay.gameToDisplayCoordinatesY(player.positionY).toInt() + halfHeight.toInt()
             )

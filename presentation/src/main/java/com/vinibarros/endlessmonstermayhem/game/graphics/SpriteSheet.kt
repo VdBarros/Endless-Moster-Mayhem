@@ -14,6 +14,7 @@ class SpriteSheet(context: Context) {
     private val mapBitmap: Bitmap by lazy { BitmapFactory.decodeResource(context.resources, R.drawable.sprite_sheet, bitmapOptions) }
     private val playerIdleBitmap: Bitmap by lazy { BitmapFactory.decodeResource(context.resources, R.drawable.wizard_idle_sheet, bitmapOptions) }
     private val playerRunningBitmap: Bitmap by lazy { BitmapFactory.decodeResource(context.resources, R.drawable.wizard_running_sheet, bitmapOptions) }
+    private val playerDyingBitmap: Bitmap by lazy { BitmapFactory.decodeResource(context.resources, R.drawable.wizard_dying_sheet, bitmapOptions) }
 
     fun getIdleSprite(directionX: Double, idxIdleFrame: Int): Sprite {
         val spriteArray = if (directionX > 0) getPlayerIdleSpriteArray() else getPlayerFlippedIdleSpriteArray()
@@ -25,11 +26,19 @@ class SpriteSheet(context: Context) {
         return spriteArray[idxMovingFrame]
     }
 
+    fun getDyingSprite(directionX: Double, idxMovingFrame: Int): Sprite {
+        val spriteArray = if (directionX > 0) getPlayerDyingSpriteArray() else getPlayerFlippedDyingSpriteArray()
+        return spriteArray[idxMovingFrame]
+    }
+
     val idleSpriteCount: Int
         get() = getPlayerIdleSpriteArray().size
 
     val runningSpriteCount: Int
         get() = getPlayerRunningSpriteArray().size
+
+    val dyingSpriteCount: Int
+        get() = getPlayerDyingSpriteArray().size
 
     private fun getPlayerIdleSpriteArray(): Array<Sprite> {
         return Array(4) { idx ->
@@ -45,6 +54,19 @@ class SpriteSheet(context: Context) {
 
     private fun getPlayerFlippedRunningSpriteArray(): Array<Sprite> {
         val flippedBitmap = flipBitmapHorizontally(playerRunningBitmap)
+        return Array(6) { idx ->
+            Sprite(flippedBitmap, Rect(idx * SPRITE_WIDTH_PIXELS, 0, (idx + 1) * SPRITE_WIDTH_PIXELS, SPRITE_HEIGHT_PIXELS))
+        }
+    }
+
+    private fun getPlayerDyingSpriteArray(): Array<Sprite> {
+        return Array(6) { idx ->
+            Sprite(playerDyingBitmap, Rect(idx * SPRITE_WIDTH_PIXELS, 0, (idx + 1) * SPRITE_WIDTH_PIXELS, SPRITE_HEIGHT_PIXELS))
+        }
+    }
+
+    private fun getPlayerFlippedDyingSpriteArray(): Array<Sprite> {
+        val flippedBitmap = flipBitmapHorizontally(playerDyingBitmap)
         return Array(6) { idx ->
             Sprite(flippedBitmap, Rect(idx * SPRITE_WIDTH_PIXELS, 0, (idx + 1) * SPRITE_WIDTH_PIXELS, SPRITE_HEIGHT_PIXELS))
         }

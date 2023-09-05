@@ -34,7 +34,7 @@ class Player(
     private val joystick: Joystick
     private val healthBar: HealthBar
     private var healthPoints = MAX_HEALTH_POINTS
-    private val animator: Animator
+    val animator: Animator
     private val tileMap: TileMap
     private val playerState: PlayerState
 
@@ -88,6 +88,6 @@ class Player(
     companion object {
         const val SPEED_PIXELS_PER_SECOND = 300
         private const val MAX_SPEED = SPEED_PIXELS_PER_SECOND / GameLoop.MAX_UPS
-        const val MAX_HEALTH_POINTS = 5
+        const val MAX_HEALTH_POINTS = 2
     }
 }

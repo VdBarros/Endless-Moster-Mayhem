@@ -137,13 +137,16 @@ class EndlessMonsterMayhemSurfaceView(
         scorePanel.draw(canvas, currentScore)
 
         if (player.healthPoint <= 0) {
-            gameLoop.endLoop()
-            onGameOver.invoke(currentScore)
+            if(player.animator.dyingAnimationFinished) {
+                gameLoop.endLoop()
+                onGameOver.invoke(currentScore)
+            }
         }
     }
 
     fun update() {
         if (player.healthPoint <= 0) {
+            player.update()
             return
         }
 
@@ -188,7 +191,7 @@ class EndlessMonsterMayhemSurfaceView(
             val enemy: Enemy = iteratorEnemy.next()
             if (enemy.isVisible && Circle.isColliding(enemy, player)) {
                 iteratorEnemy.remove()
-                //player.healthPoint--
+                player.healthPoint--
                 continue
             }
             val iteratorSpell: MutableIterator<Spell> = spellList.iterator()
