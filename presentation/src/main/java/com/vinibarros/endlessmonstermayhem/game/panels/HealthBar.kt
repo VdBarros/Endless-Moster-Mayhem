@@ -7,17 +7,19 @@ import androidx.core.content.ContextCompat
 import com.vinibarros.endlessmonstermayhem.game.core.GameDisplay
 import com.vinibarros.endlessmonstermayhem.game.objects.Player
 import com.vinibarros.endlessmonstermayhem.presentation.R
+import com.vinibarros.endlessmonstermayhem.util.getPixelFromDp
 
 
 class HealthBar(context: Context, private val player: Player) {
+    private val context: Context
     private val borderPaint: Paint = Paint()
     private val healthPaint: Paint
     private val width = 100
     private val height = 20
-    private val margin // pixel value
-            = 2
+    private val margin = 2
 
     init {
+        this.context = context
         val borderColor = ContextCompat.getColor(context, R.color.healthBarBorder)
         borderPaint.color = borderColor
         healthPaint = Paint()
@@ -28,7 +30,7 @@ class HealthBar(context: Context, private val player: Player) {
     fun draw(canvas: Canvas, gameDisplay: GameDisplay) {
         val x = player.positionX.toFloat()
         val y = player.positionY.toFloat()
-        val distanceToPlayer = 30f
+        val distanceToPlayer = context.getPixelFromDp(30).toFloat()
         val healthPointPercentage = player.healthPoint.toFloat() / Player.MAX_HEALTH_POINTS
 
         val borderTop: Float

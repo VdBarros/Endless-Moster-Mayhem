@@ -1,9 +1,10 @@
 package com.vinibarros.endlessmonstermayhem.game.graphics
 
+import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Rect
 
-class Sprite(private val spriteSheet: SpriteSheet, rect: Rect) {
+class Sprite(private val bitmap: Bitmap, rect: Rect) {
     var rect: Rect
 
     init {
@@ -12,7 +13,7 @@ class Sprite(private val spriteSheet: SpriteSheet, rect: Rect) {
 
     fun draw(canvas: Canvas, dstRect: Rect) {
         canvas.drawBitmap(
-            spriteSheet.bitmap,
+            bitmap,
             rect,
             dstRect,
             null

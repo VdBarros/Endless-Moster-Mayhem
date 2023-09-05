@@ -60,7 +60,7 @@ class EndlessMonsterMayhemSurfaceView(
         )
 
         val spriteSheet = SpriteSheet(context)
-        val animator = Animator(spriteSheet.playerSpriteArray)
+        val animator = Animator(spriteSheet)
         tilemap = TileMap(spriteSheet, context)
         player = Player(
             context,
@@ -188,7 +188,7 @@ class EndlessMonsterMayhemSurfaceView(
             val enemy: Enemy = iteratorEnemy.next()
             if (enemy.isVisible && Circle.isColliding(enemy, player)) {
                 iteratorEnemy.remove()
-                player.healthPoint--
+                //player.healthPoint--
                 continue
             }
             val iteratorSpell: MutableIterator<Spell> = spellList.iterator()

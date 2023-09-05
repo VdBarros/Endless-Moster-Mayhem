@@ -3,28 +3,66 @@ package com.vinibarros.endlessmonstermayhem.game.graphics
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Matrix
 import android.graphics.Rect
 import com.vinibarros.endlessmonstermayhem.presentation.R
 
-
 class SpriteSheet(context: Context) {
-    val bitmap: Bitmap
+    private val bitmapOptions: BitmapFactory.Options = BitmapFactory.Options().apply {
+        inScaled = false
+    }
+    private val mapBitmap: Bitmap by lazy { BitmapFactory.decodeResource(context.resources, R.drawable.sprite_sheet, bitmapOptions) }
+    private val playerIdleBitmap: Bitmap by lazy { BitmapFactory.decodeResource(context.resources, R.drawable.wizard_idle_sheet, bitmapOptions) }
+    private val playerRunningBitmap: Bitmap by lazy { BitmapFactory.decodeResource(context.resources, R.drawable.wizard_running_sheet, bitmapOptions) }
 
-    init {
-        val bitmapOptions = BitmapFactory.Options()
-        bitmapOptions.inScaled = false
-        bitmap =
-            BitmapFactory.decodeResource(context.resources, R.drawable.sprite_sheet, bitmapOptions)
+    fun getIdleSprite(directionX: Double, idxIdleFrame: Int): Sprite {
+        val spriteArray = if (directionX > 0) getPlayerIdleSpriteArray() else getPlayerFlippedIdleSpriteArray()
+        return spriteArray[idxIdleFrame]
     }
 
-    val playerSpriteArray: Array<Sprite>
-        get() {
-            return arrayOf(
-                Sprite(this, Rect(0 * 64, 0, 1 * 64, 64)),
-                Sprite(this, Rect(1 * 64, 0, 2 * 64, 64)),
-                Sprite(this, Rect(2 * 64, 0, 3 * 64, 64))
-            )
+    fun getRunningSprite(velocityX: Double, idxMovingFrame: Int): Sprite {
+        val spriteArray = if (velocityX > 0) getPlayerRunningSpriteArray() else getPlayerFlippedRunningSpriteArray()
+        return spriteArray[idxMovingFrame]
+    }
+
+    val idleSpriteCount: Int
+        get() = getPlayerIdleSpriteArray().size
+
+    val runningSpriteCount: Int
+        get() = getPlayerRunningSpriteArray().size
+
+    private fun getPlayerIdleSpriteArray(): Array<Sprite> {
+        return Array(4) { idx ->
+            Sprite(playerIdleBitmap, Rect(idx * SPRITE_WIDTH_PIXELS, 0, (idx + 1) * SPRITE_WIDTH_PIXELS, SPRITE_HEIGHT_PIXELS))
         }
+    }
+
+    private fun getPlayerRunningSpriteArray(): Array<Sprite> {
+        return Array(6) { idx ->
+            Sprite(playerRunningBitmap, Rect(idx * SPRITE_WIDTH_PIXELS, 0, (idx + 1) * SPRITE_WIDTH_PIXELS, SPRITE_HEIGHT_PIXELS))
+        }
+    }
+
+    private fun getPlayerFlippedRunningSpriteArray(): Array<Sprite> {
+        val flippedBitmap = flipBitmapHorizontally(playerRunningBitmap)
+        return Array(6) { idx ->
+            Sprite(flippedBitmap, Rect(idx * SPRITE_WIDTH_PIXELS, 0, (idx + 1) * SPRITE_WIDTH_PIXELS, SPRITE_HEIGHT_PIXELS))
+        }
+    }
+
+    private fun getPlayerFlippedIdleSpriteArray(): Array<Sprite> {
+        val flippedBitmap = flipBitmapHorizontally(playerIdleBitmap)
+        return Array(4) { idx ->
+            Sprite(flippedBitmap, Rect(idx * SPRITE_WIDTH_PIXELS, 0, (idx + 1) * SPRITE_WIDTH_PIXELS, SPRITE_HEIGHT_PIXELS))
+        }
+    }
+
+    private fun flipBitmapHorizontally(bitmap: Bitmap): Bitmap {
+        val matrix = Matrix()
+        matrix.postScale(-1f, 1f)
+        return Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
+    }
+
     val waterSprite: Sprite
         get() = getSpriteByIndex(1, 0)
     val lavaSprite: Sprite
@@ -38,7 +76,7 @@ class SpriteSheet(context: Context) {
 
     private fun getSpriteByIndex(idxRow: Int, idxCol: Int): Sprite {
         return Sprite(
-            this, Rect(
+            mapBitmap, Rect(
                 idxCol * SPRITE_WIDTH_PIXELS,
                 idxRow * SPRITE_HEIGHT_PIXELS,
                 (idxCol + 1) * SPRITE_WIDTH_PIXELS,
