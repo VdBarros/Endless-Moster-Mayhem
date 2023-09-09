@@ -26,7 +26,7 @@ class PlayerState(private val player: Player) {
                         State.NOT_MOVING
                 }
 
-                State.DEAD -> {}
+                State.DEAD -> state = State.DEAD
             }
         }
     }

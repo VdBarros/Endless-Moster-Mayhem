@@ -83,8 +83,10 @@ class Animator(private val spriteSheet: SpriteSheet) {
     }
 
     private fun toggleDyingFrame() {
-        if (dyingFrameIndex < spriteSheet.dyingSpriteCount - 1) dyingFrameIndex++
-        else dyingAnimationFinished = true
+        if (!dyingAnimationFinished) {
+            if (dyingFrameIndex < spriteSheet.dyingSpriteCount - 1) dyingFrameIndex++
+            else dyingAnimationFinished = true
+        }
     }
 
     private fun drawPlayerFrame(

@@ -36,7 +36,6 @@ class EndlessMonsterMayhemSurfaceView(
     private var gameLoop: GameLoop
     private val enemyList = ArrayList<Enemy>()
     private val spellList = ArrayList<Spell>()
-    private var numberOfSpellsToCast = 0
     private val scorePanel: ScorePanel
     private var currentScore = 0
     private val gameDisplay: GameDisplay
@@ -77,30 +76,37 @@ class EndlessMonsterMayhemSurfaceView(
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent): Boolean {
+        val actionIndex = event.actionIndex
+        val actionId = event.getPointerId(actionIndex)
+
         when (event.actionMasked) {
             MotionEvent.ACTION_DOWN, MotionEvent.ACTION_POINTER_DOWN -> {
-                if (joystick.isPressed) {
-                    numberOfSpellsToCast++
-                } else if (joystick.isPressed(event.x.toDouble(), event.y.toDouble())) {
-                    joystickPointerId = event.getPointerId(event.actionIndex)
+                if (joystick.isPressed(event.getX(actionIndex).toDouble(), event.getY(actionIndex).toDouble())) {
+                    joystickPointerId = actionId
                     joystick.isPressed = true
                 } else {
-                    numberOfSpellsToCast++
+                    player.actionShootSpell = true
                 }
                 return true
             }
 
             MotionEvent.ACTION_MOVE -> {
-                if (joystick.isPressed) {
-                    joystick.setActuator(event.x.toDouble(), event.y.toDouble())
+                for (pointer in 0 until event.pointerCount) {
+                    if (joystick.isPressed && pointer == joystickPointerId) {
+                        joystick.setActuator(event.getX(pointer).toDouble(), event.getY(pointer).toDouble())
+                    } else if (!joystick.isPressed) {
+                        player.actionShootSpell = true
+                    }
                 }
                 return true
             }
 
             MotionEvent.ACTION_UP, MotionEvent.ACTION_POINTER_UP -> {
-                if (joystickPointerId == event.getPointerId(event.actionIndex)) {
+                if (actionId == joystickPointerId) {
                     joystick.isPressed = false
                     joystick.resetActuator()
+                } else {
+                    player.actionShootSpell = false
                 }
                 return true
             }
@@ -145,13 +151,12 @@ class EndlessMonsterMayhemSurfaceView(
     }
 
     fun update() {
+        player.update()
         if (player.healthPoint <= 0) {
-            player.update()
             return
         }
 
         joystick.update()
-        player.update()
 
         if (Enemy.readyToSpawn()) {
             enemyList.add(Enemy(context, player, visibilityMargin, displayMetrics))
@@ -161,9 +166,9 @@ class EndlessMonsterMayhemSurfaceView(
             enemy.update()
         }
 
-        while (numberOfSpellsToCast > 0) {
+        while (player.numberOfSpellsToCast > 0) {
             spellList.add(Spell(context, player))
-            numberOfSpellsToCast--
+            player.numberOfSpellsToCast--
         }
 
         val spellTrash = ArrayList<Spell>()

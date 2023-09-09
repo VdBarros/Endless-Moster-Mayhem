@@ -31,12 +31,17 @@ class Player(
         positionY,
         radius
     ) {
+    var actionShootSpell = false
     private val joystick: Joystick
     private val healthBar: HealthBar
     private var healthPoints = MAX_HEALTH_POINTS
     val animator: Animator
+    var numberOfSpellsToCast = 0
     private val tileMap: TileMap
     private val playerState: PlayerState
+    private val cooldownTime = 15
+    private var timeSinceLastSpell = 0
+
 
     init {
         this.joystick = joystick
@@ -67,6 +72,14 @@ class Player(
             directionX = velocityX / distance
             directionY = velocityY / distance
         }
+
+        if (actionShootSpell) {
+            if (timeSinceLastSpell >= cooldownTime) {
+                numberOfSpellsToCast++
+                timeSinceLastSpell = 0
+            }
+        }
+        timeSinceLastSpell++
         playerState.update()
     }
 
@@ -88,6 +101,6 @@ class Player(
     companion object {
         const val SPEED_PIXELS_PER_SECOND = 300
         private const val MAX_SPEED = SPEED_PIXELS_PER_SECOND / GameLoop.MAX_UPS
-        const val MAX_HEALTH_POINTS = 2
+        const val MAX_HEALTH_POINTS = 5
     }
 }
